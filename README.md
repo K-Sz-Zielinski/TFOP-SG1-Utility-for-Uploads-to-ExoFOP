@@ -37,7 +37,7 @@ Download `sg1_utility.py` and place it anywhere, e.g. `/home/user/sg1_utility.py
 
 All parameters must be passed as **strings** (quoted).
 
-**Note:** The upload group is **hardcoded to "tfopwg"**. There is no `--group` argument.
+**Note:** The upload group is **hardcoded to "tfopwg"**.
 
 ### Single filter
 ```bash
@@ -129,7 +129,7 @@ TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 
 - **Primary AIJ table per filter**: among all `_measurements.tbl` candidates, pick the one with the largest median `Source_Radius`; if tied, prefer a table where the radius varies; then by largest `_Npx`; then by filename.
 - **Aperture radius**: median of `Source_Radius`, rounded to 0.1 px. If the radius varies, the phrase `aperture radius was variable in time` is appended to notes.
-- **Pixel scale**: mean of `proj_plane_pixel_scales(WCS)` in arcsec/pixel from the first valid WCS FITS.
+- **Pixel scale**: mean of `proj_plane_pixel_scales(WCS)` in arcsec/pixel from the Plate-Solved Image.
 - **Duration**: from first/last `JD_UTC` ± half the respective exposure (`EXPTIME` or `EXPOSURE`); minutes rounded to nearest integer.
 - **Counts**: number of rows in the AIJ table.
 
@@ -147,7 +147,7 @@ TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 ## PSF and Δmag logic
 
 - **Single filter**: `--psf` and `--deltamag` are required. If `--deltamag "0"`, the ExoFOP field is left blank.
-- **Multiple filters**: `--psf` and `--deltamag` on the CLI are ignored. The tool prompts per filter. Blank ΔMag input leaves the field blank.
+- **Multiple filters**: `--psf` and `--deltamag` on the CLI are ignored. The tool prompts per filter. Blank Δmag input leaves the field blank.
 
 ---
 
