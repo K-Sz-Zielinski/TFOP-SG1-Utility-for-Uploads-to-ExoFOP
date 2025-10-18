@@ -114,7 +114,7 @@ TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 - `_WCS.fits` → **Plate-Solved Image**
 
 ### Required global
-- Exactly one `_notes.txt` → **Notes and Results Text** (date and observatory must match the set)
+- Exactly one `_notes.txt` → **Notes and Results Text**
 
 ### Optional per filter
 - `_lightcurve.png` → **Light Curve Plot**
