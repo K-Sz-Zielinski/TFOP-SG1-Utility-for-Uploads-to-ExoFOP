@@ -4,6 +4,8 @@ If you encounter any issues, contact the author at **krzysztof.sz.zielinski@gmai
 
 Command-line tool that validates TFOP-SG1 filenames, builds **per-filter** observation summaries, and uploads summaries/files to ExoFOP.
 
+This tool was created by the owner of this repository and is an expanded and reworked version of an earlier script developed by Thiam-Guan Tan.
+
 ---
 
 ## Requirements
@@ -178,6 +180,3 @@ upload(
   skip_files=False
 )
 ```
----
-
-This tool was created by the owner of this repository and is an expanded and reworked version of an earlier script developed by Thiam-Guan Tan.
