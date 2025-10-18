@@ -11,7 +11,7 @@ This tool was created by the owner of this repository and is an expanded and rew
 ## Requirements
 
 ### Python
-3.8+ (tested on 3.8–3.12)
+3.8+
 
 ### Packages
 - `numpy`
