@@ -117,7 +117,7 @@ TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 ### Optional per filter
 - `_lightcurve.png` → **Light Curve Plot**
 - `_measurements_NEB-table.txt` → **NEB Table**
-- `_measurements_NEBcheck.zip` → **NEB Depth Plots** (only this pattern is accepted)
+- `_measurements_NEBcheck.zip` → **NEB Depth Plots**
 - `_measurements_dmagRMS-plot.png` → **Δmag vs. RMS Plot**
 - `_subset.csv` → **Photometry Table Subset for Joint Fitting**
 
@@ -180,4 +180,4 @@ upload(
 ```
 ---
 
-This tool was created by the author of this document and is an expanded and reworked version of an earlier script developed by Thiam-Guan Tan.
+This tool was created by the owner of this repository and is an expanded and reworked version of an earlier script developed by Thiam-Guan Tan.
