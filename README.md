@@ -1,4 +1,4 @@
-# TFOP SG1 Utility for Uploading Observations to ExoFOP
+# TFOP SG1 Utility for Uploads to ExoFOP
 
 If you encounter any issues, contact the author at **krzysztof.sz.zielinski@gmail.com**.
 
