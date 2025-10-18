@@ -1,6 +1,6 @@
 # TFOP SG1 Utility for Uploads to ExoFOP
 
-If you encounter any issues, contact the author at **krzysztof.sz.zielinski@gmail.com**.
+If you encounter any issues, contact me at **krzysztof.sz.zielinski@gmail.com**.
 
 Command-line tool that validates TFOP-SG1 filenames, builds **per-filter** observation summaries, and uploads summaries/files to ExoFOP.
 
