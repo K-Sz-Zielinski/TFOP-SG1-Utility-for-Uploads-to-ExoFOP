@@ -51,7 +51,7 @@ python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR
 ```
 When multiple filters are detected the tool **prompts per filter** for:
 - PSF (arcsec, numeric)
-- Faintest-neighbor ΔMag (numeric or blank)
+- Faintest-neighbor Δmag (numeric or blank)
 
 In multi-filter mode any `--psf` or `--deltamag` passed on the CLI are ignored.
 
