@@ -155,7 +155,7 @@ TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 
 - Prints detected date, observatory, and filters.
 - Prints **per-filter** recognized files and reasons for any rejections.
-- Prints missing required/optional items per filter; for multi-filter runs, also prints a global note for `_notes.txt`. In single-filter runs, no separate “Global files” line is shown.
+- Prints missing required/optional items per filter; for multi-filter runs, also prints a global note for `_notes.txt`.
 
 ---
 
