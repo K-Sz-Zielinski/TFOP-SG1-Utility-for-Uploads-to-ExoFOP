@@ -69,7 +69,7 @@ python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR
 | `--username` | ✓ | ExoFOP username (string) |
 | `--password` | ✓ | ExoFOP password (string) |
 | `--tic` | ✓ | TIC with planet index, e.g. `"12345678.01"` |
-| `--toi` | ✓ | TOI with planet index, e.g. `"1234.01"` |
+| `--toi` | ✓ | TOI with planet index, e.g. `"1234.01"`; use `"0"` if the corresponding TOI ID does not exist |
 | `--directory` | ✓ | Path to files, e.g. `"/path/to/dir"` |
 | `--coverage` | ✓ | `"Full"`, `"Ingress"`, `"Egress"`, `"Out of Transit"` |
 | `--telsize` | ✓ | Telescope aperture in meters as string, e.g. `"0.35"` |

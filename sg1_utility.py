@@ -15,7 +15,7 @@ def upload(username, password, tic, toi, directory, group='tfopwg', coverage=Non
         except Exception:
             pass
     def _err(m):
-        print(m); _bell(); sys.exit(m)
+        print(m); _bell(); sys.exit(1)
     def _arrow_block(rows, arrow="->", extra_pad=2):
         w=max(len(k) for k,_ in rows)
         for k,v in rows: print(f"{k:<{w}}  {arrow}{' '*extra_pad}{v}")
@@ -26,14 +26,22 @@ def upload(username, password, tic, toi, directory, group='tfopwg', coverage=Non
     if not camera:  _err("ERROR: Please provide camera name via --camera.")
     if not coverage: _err("ERROR: Please provide --coverage (Full, Ingress, Egress, or 'Out of Transit').")
 
-    m_tic=re.fullmatch(r'(\d+)\.(\d{2})', str(tic).strip())
-    m_toi=re.fullmatch(r'(\d+)\.(\d{2})', str(toi).strip())
-    if not (m_tic and m_toi): _err('ERROR: tic and toi must look like "12345678.01" and "1234.01".')
+    tic_str=str(tic).strip()
+    toi_str=str(toi).strip()
+    m_tic=re.fullmatch(r'(\d+)\.(\d{2})', tic_str)
+    m_toi=re.fullmatch(r'(\d+)\.(\d{2})', toi_str) if toi_str!='0' else None
+    if not m_tic or (toi_str!='0' and not m_toi): _err('ERROR: tic and toi must look like "12345678.01" and "1234.01".')
     tic_num, planet_tic=m_tic.group(1), m_tic.group(2)
-    toi_num, planet_toi=m_toi.group(1), m_toi.group(2)
-    if planet_tic!=planet_toi: _err("ERROR: Planet indices of tic and toi must match.")
-    toi_lbl_display='TOI '+str(toi)
-    toi_lbl_upload='TOI'+str(toi)
+    if toi_str=='0':
+        toi_lbl_display=''
+        toi_lbl_upload=''
+        target_title=f"TIC {tic_str} (no TOI identifier)"
+    else:
+        toi_num, planet_toi=m_toi.group(1), m_toi.group(2)
+        if planet_tic!=planet_toi: _err("ERROR: Planet indices of tic and toi must match.")
+        toi_lbl_display='TOI '+toi_str
+        toi_lbl_upload='TOI'+toi_str
+        target_title=f"TIC {tic_str} (TOI {toi_str})"
     tgt_prefix=f"TIC{tic_num}-{planet_tic}"
 
     with requests.Session() as s:
@@ -95,7 +103,7 @@ def upload(username, password, tic, toi, directory, group='tfopwg', coverage=Non
         if len(dates)>1 or len(observatories)>1: _err(f"ERROR: Multiple dates/observatories found: dates={sorted(dates)}, observatories={sorted(observatories)}.")
         date=list(dates)[0]; observatory=list(observatories)[0]
         filter_list=sorted({x['flt'] for x in recognized})
-        print(f"TIC {tic} (TOI {toi})")
+        print(target_title)
         print(f"Detected set -> Date: {date}, Observatory: {observatory}, Filter(s): {', '.join(filter_list)}")
 
         if len(global_notes)!=1: _err("ERROR: Exactly one notes.txt must be present.")
