@@ -1,61 +1,40 @@
 # TFOP SG1 Utility for Uploads to ExoFOP
 
-If you encounter any issues, contact me at **krzysztof.sz.zielinski@gmail.com**.
+Command-line tool that validates filenames, builds observation summaries, and uploads summaries & observation files to ExoFOP.
 
-Command-line tool that validates TFOP-SG1 filenames, builds **per-filter** observation summaries, and uploads summaries/files to ExoFOP.
+If you encounter any issues, contact me at **krzysztof.sz.zielinski@gmail.com**.
 
 This tool was created by the owner of this repository and is an expanded and reworked version of an earlier script developed by Thiam-Guan Tan.
 
 ---
 
-## Requirements
-
-### Python
-3.8+
-
-### Packages
-- `numpy`
-- `astropy`
-- `requests`
-
-Install:
-```bash
-pip install numpy astropy requests
-```
-
-### Credentials
-Valid ExoFOP username and password.
-
----
-
-## Getting the script
+### Getting the script
 Download `sg1_utility.py` and place it anywhere, e.g. `/home/user/sg1_utility.py`.
 
+### Requirements
+- Python (3.8+),
+- packages: `numpy`, `astropy`, `requests` (install using `pip install numpy astropy requests`),
+- valid ExoFOP account with TFOP WG credentials.
+
 ---
 
-## CLI usage
+## Quickstart
 
-All parameters must be passed as **strings** (quoted).
+All parameters must be passed as strings (quoted). The upload group is hardcoded to `tfopwg`.
 
-**Note:** The upload group is **hardcoded to "tfopwg"**.
-
-### Single filter
+#### Single filter observations:
 ```bash
 python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR_PASSWORD"   --tic "12345678.01"   --toi "1234.01"   --directory "/home/you/TOI-1234/files"   --coverage "Full"   --telsize "1.0"   --camera "CAMERA_NAME"   --psf "3.1"   --deltamag "5.0"
 ```
 In single-filter runs `--psf` and `--deltamag` are required. Set `--deltamag "0"` to upload a blank value.
 
-### Multiple filters in one directory
+#### Multiple filters in one directory (for observing runs with alternating filters):
 ```bash
 python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR_PASSWORD"   --tic "12345678.01"   --toi "1234.01"   --directory "/home/you/TOI-1234/files"   --coverage "Ingress"   --telsize "1.0"   --camera "CAMERA_NAME"
 ```
-When multiple filters are detected the tool **prompts per filter** for:
-- PSF (arcsec, numeric)
-- Faintest-neighbor Δmag (numeric or blank)
+When multiple filters are detected the tool **prompts per filter** for PSF and Faintest-neighbor Δmag. In this multi-filter mode, any previously passed `--psf` or `--deltamag` values are ignored.
 
-In multi-filter mode any `--psf` or `--deltamag` passed on the CLI are ignored.
-
-### Dry run (validate only; no uploads)
+#### Dry run (validate only; no uploads):
 ```bash
 python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR_PASSWORD"   --tic "12345678.01"   --toi "1234.01"   --directory "/home/you/TOI-1234/files"   --coverage "Full"   --telsize "1.0"   --camera "CAMERA_NAME"   --psf "3.1"   --deltamag "0"   --skip-summary   --skip-files
 ```
@@ -64,16 +43,16 @@ python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR
 
 ## Arguments
 
-| Flag | Req | Description |
+| Flag | Required? | Description |
 |---|:--:|---|
-| `--username` | ✓ | ExoFOP username (string) |
-| `--password` | ✓ | ExoFOP password (string) |
+| `--username` | ✓ | ExoFOP username |
+| `--password` | ✓ | ExoFOP password |
 | `--tic` | ✓ | TIC with planet index, e.g. `"12345678.01"` |
 | `--toi` | ✓ | TOI with planet index, e.g. `"1234.01"`; use `"0"` if the corresponding TOI ID does not exist |
 | `--directory` | ✓ | Path to files, e.g. `"/path/to/dir"` |
 | `--coverage` | ✓ | `"Full"`, `"Ingress"`, `"Egress"`, `"Out of Transit"` |
-| `--telsize` | ✓ | Telescope aperture in meters as string, e.g. `"0.35"` |
-| `--camera` | ✓ | Camera name as string |
+| `--telsize` | ✓ | Telescope aperture in meters, e.g. `"0.35"` |
+| `--camera` | ✓ | Camera name |
 | `--psf` | ✓ | Required only for single-filter runs; string containing a numeric value |
 | `--deltamag` | ✓ | Required only for single-filter runs; `"0"` means upload blank |
 | `--notes` |  | Public notes (merged with auto notes if any) |
@@ -95,13 +74,13 @@ python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR
 
 ## File recognition and rules
 
-### Naming pattern (strict)
+### Filenaming pattern (strict)
 ```
 TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 ```
 - `<pp>` is the 2-digit planet index and must match both `--tic` and `--toi`.
-- Exactly one date and one observatory across the folder.
-- `_Npx` is allowed for files that can have multiple apertures.
+- Exactly one date (`<YYYYMMDD>`) and one observatory (`<Observatory>`) across the folder.
+- `_Npx` (optional) is the corresponding aperture radius; it is allowed if the user prepared the same type of file for more than one aperture radius.
 
 ### Required per filter
 - `_measurements.tbl` → **AstroImageJ Photometry Measurement Table**
