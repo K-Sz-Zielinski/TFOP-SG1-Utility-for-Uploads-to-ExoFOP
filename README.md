@@ -49,15 +49,15 @@ python /home/user/sg1_utility.py   --username "YOUR_USERNAME"   --password "YOUR
 | `--password` | ✓ | ExoFOP password |
 | `--tic` | ✓ | TIC with planet index, e.g. `"12345678.01"` |
 | `--toi` | ✓ | TOI with planet index, e.g. `"1234.01"`; use `"0"` if the corresponding TOI ID does not exist (some TESS exoplanet candidates do not have valid TOI identifiers) |
-| `--directory` | ✓ | Path to files, e.g. `"/path/to/dir"` |
-| `--coverage` | ✓ | `"Full"`, `"Ingress"`, `"Egress"`, `"Out of Transit"` |
-| `--telsize` | ✓ | Telescope aperture in meters, e.g. `"0.35"` |
-| `--camera` | ✓ | Camera name |
-| `--psf` | ✓ | Required only for single-filter runs; string containing a numeric value |
-| `--deltamag` | ✓ | Required only for single-filter runs; `"0"` means upload blank |
-| `--notes` |  | Public notes (merged with auto notes if any) |
-| `--skip-summary` |  | Skip time-series summary upload |
-| `--skip-files` |  | Skip file uploads |
+| `--directory` | ✓ | path to files, e.g. `"/path/to/dir"` |
+| `--coverage` | ✓ | case-sensitive, the only accepted values are: `"Full"`, `"Ingress"`, `"Egress"`, `"Out of Transit"` |
+| `--telsize` | ✓ | telescope aperture in meters, e.g. `"0.35"` |
+| `--camera` | ✓ | camera name |
+| `--psf` | ✓ | required only for single-filter runs; string containing a numeric value |
+| `--deltamag` | ✓ | required only for single-filter runs; `"0"` means upload blank |
+| `--notes` |  | public notes (merged with auto notes if any) |
+| `--skip-summary` |  | skip time-series summary upload |
+| `--skip-files` |  | skip file uploads |
 
 The upload group is fixed to `"tfopwg"` and cannot be changed via CLI or function arguments. Proprietary period is always enabled and fixed to 12 months.
 
@@ -65,10 +65,10 @@ The upload group is fixed to `"tfopwg"` and cannot be changed via CLI or functio
 
 | `--skip-summary` | `--skip-files` | Behavior |
 |:--:|:--:|---|
-| off | off | One confirmation → upload summary and files |
-| on  | off | One confirmation → upload files only |
-| off | on  | One confirmation → upload summary only |
-| on  | on  | No uploads; validation/preview only |
+| off | off | one confirmation → upload summary and files |
+| on  | off | one confirmation → upload files only |
+| off | on  | one confirmation → upload summary only |
+| on  | on  | no uploads; validation/preview only |
 
 ---
 
@@ -76,7 +76,7 @@ The upload group is fixed to `"tfopwg"` and cannot be changed via CLI or functio
 
 ### Filenaming pattern (strict)
 ```
-TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<filetype>
+TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<tail>
 ```
 - `<digits>` is the TESS Input Catalog (TIC) identifier of the object.
 - `<pp>` is the 2-digit planet index and must match both `--tic`, and `--toi` (if `--toi` is not set to "0").
@@ -84,27 +84,33 @@ TIC<digits>-<pp>_<YYYYMMDD>_<Observatory>_<Filter>[_<N>px]_<filetype>
 - `<YYYYMMDD>` is the UT date of the observation.
 - `<Observatory>` is the observatory abbreviation/code (e.g., `LCO-1m0-CTIO`)
 - `_Npx` (optional) is the corresponding aperture radius; it is allowed if the user prepared the same type of file for more than one aperture radius.
-- `<filetype>` is the information on the purpose and type of the file (e.g., `_seeing-profile.png`).
+- `<tail>` is the information on the purpose and type of the file (e.g., `_seeing-profile.png`).
 
-### Required per filter
-- `_measurements.tbl` → **AstroImageJ Photometry Measurement Table**
-- `_measurements.plotcfg` → **AstroImageJ Plot Configuration File**
-- `_measurements.radec` → **AstroImageJ Photometry Aperture File**
-- `_compstar-lightcurves.png` → **Compstar Light Curve Plots**
-- `_field.png` → **Field Image with Apertures**
-- `_field-zoom.png` → **Zoomed-in FOV**
-- `_seeing-profile.png` → **Seeing Profile**
-- `_WCS.fits` → **Plate-Solved Image**
+### Required files (per filter):
+| File | `<tail>` |
+|---|---|
+| **AstroImageJ Photometry Measurement Table** | `_measurements.tbl` |
+| **AstroImageJ Plot Configuration File** | `_measurements.plotcfg` |
+| **AstroImageJ Photometry Aperture File** | `_measurements.radec` |
+| **Compstar Light Curve Plots** | `_compstar-lightcurves.png` |
+| **Field Image with Apertures** | `_field.png` |
+| **Zoomed-in FOV** | `_field-zoom.png` |
+| **Seeing Profile** | `_seeing-profile.png` |
+| **Plate-Solved Image** | `_WCS.fits` |
 
-### Required global
-- Exactly one `_notes.txt` → **Notes and Results Text**
+### Non-mandatory files (per filter):
+| File | `<tail>` |
+|---|---|
+| **Light Curve Plot** | `_lightcurve.png` |
+| **NEB Table** | `_measurements_NEB-table.txt` |
+| **NEB Depth Plots** | `_measurements_NEBcheck.zip` |
+| **Δmag vs. RMS Plot** | `_measurements_dmagRMS-plot.png` |
+| **Photometry Table Subset for Joint Fitting** | `_subset.csv` |
 
-### Optional per filter
-- `_lightcurve.png` → **Light Curve Plot**
-- `_measurements_NEB-table.txt` → **NEB Table**
-- `_measurements_NEBcheck.zip` → **NEB Depth Plots**
-- `_measurements_dmagRMS-plot.png` → **Δmag vs. RMS Plot**
-- `_subset.csv` → **Photometry Table Subset for Joint Fitting**
+### Required global files (one per whole single- or multi-filter observation):
+| File | `<tail>` |
+|---|---|
+| **Notes and Results Text** | `_notes.txt` |
 
 ---
 
